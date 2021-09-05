@@ -2,23 +2,15 @@ using System;
 
 class RemoteControlCar
 {
-    public static RemoteControlCar Buy()
-    {
-        throw new NotImplementedException("Please implement the (static) RemoteControlCar.Buy() method");
-    }
-
-    public string DistanceDisplay()
-    {
-        throw new NotImplementedException("Please implement the RemoteControlCar.DistanceDisplay() method");
-    }
-
-    public string BatteryDisplay()
-    {
-        throw new NotImplementedException("Please implement the RemoteControlCar.BatteryDisplay() method");
-    }
-
-    public void Drive()
-    {
-        throw new NotImplementedException("Please implement the RemoteControlCar.Drive() method");
-    }
+    private int _driveCallsCount = 0;
+    private const int PercentPerDriveCall = 1;
+    private const int MetersPerDriveCall = 20;
+    public static RemoteControlCar Buy() => new();
+    public string DistanceDisplay() => $"Driven {Distance()} meters";
+    public string BatteryDisplay() => BatteryPercent() == 0
+        ? "Battery empty"
+        : $"Battery at {BatteryPercent()}%";
+    public int BatteryPercent() => 100 - _driveCallsCount * PercentPerDriveCall;
+    public int Distance() => _driveCallsCount * MetersPerDriveCall;
+    public void Drive() { if (BatteryPercent() >= PercentPerDriveCall) _driveCallsCount++; }
 }
